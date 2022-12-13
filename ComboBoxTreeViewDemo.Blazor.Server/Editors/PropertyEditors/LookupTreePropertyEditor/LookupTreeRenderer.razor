@@ -1,0 +1,9 @@
+﻿<ComboBoxTreeView ComponentModel="ComponentModel" />
+
+@code {
+    [Parameter]
+    public LookupTreeModel ComponentModel { get; set;  }
+
+    public static RenderFragment Create(LookupTreeModel componentModel) =>
+    @<LookupTreeRenderer ComponentModel=@componentModel />;
+}

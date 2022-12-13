@@ -1,0 +1,43 @@
+﻿@inherits ComboBoxTreeViewBase
+
+@using ComboBoxTreeViewDemo.Module.BusinessObjects
+
+<div class="w-100">
+    <DxComboBox Id="combo-box-tree" Data=@ComponentModel.Categories CssClass="dropdown-width"
+                Value=@ComponentModel.Value
+                TextFieldName=@nameof(Category.Name)
+                ValueChanged=@((Category newValue) => OnComboBoxValueChanged(newValue))
+                DropDownVisibleChanged="@((value) => OnDropDownVisibleChanges(value))"
+               
+                ReadOnly=@ComponentModel.ReadOnly>
+    </DxComboBox>
+
+    <DxDropDown @bind-IsOpen="@DropDownIsOpen" CssClass="treeview-categories" Id="new-dropdown-test"
+                @ref=@ComboBoxDropDown
+                PositionTarget="@($"#combo-box-tree")"
+                PositionMode="DropDownPositionMode.Bottom"
+                CloseMode="DropDownCloseMode.Close"
+                Shown="GetWithfromFather"
+                PreventCloseOnPositionTargetClick="true">
+        <BodyTemplate>
+            <DxTreeView @ref=@ComboBoxTreeView Id ="TreeviewCategories"
+                        AllowSelectNodes="true"
+                        Data="@ComponentModel.Categories.Where(c => c.Parent == null)"
+                        SelectionChanged="OnComboBoxTreeViewSelectionChanged">
+                <DataMappings>
+                    <DxTreeViewDataMapping Text="@nameof(Category.Name)" Children="@nameof(Category.Children)" />
+                </DataMappings>
+            </DxTreeView>
+        </BodyTemplate>
+    </DxDropDown>
+</div>
+
+<style>
+    .dropdown-width{
+        width: 100%;
+    }
+
+    .treeview-categories{
+        width: 100%;
+    }
+</style>
